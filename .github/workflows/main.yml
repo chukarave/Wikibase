@@ -31,3 +31,45 @@ jobs:
             --path-rename=lib/tests/phpunit/Changes:tests
             --path-rename lib/packages/wikibase/changes/:
             --message-callback 'return re.sub(b"^changes: ", b"", message)'
+  secondary-ci:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - env: DBTYPE=sqlite LANG=ru WB=both
+          php-versions: '7.3'
+        - env: DBTYPE=sqlite LANG=en WB=client
+          php-versions: '7.2'
+        - env: DBTYPE=mysql LANG=en WB=repo
+          php-versions: '7.2'
+        - env: DBTYPE=sqlite LANG=ar WB=both
+          php-versions: '7.3'
+        - env: DBTYPE=mysql LANG=en WB=both
+          php-versions: '7.2'
+        - env: DBTYPE=mysql LANG=en WB=both
+          php-versions: '7.3'
+        - env: DBTYPE=mysql LANG=en WB=both
+          php-versions: '7.4'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+    - name: install.sh
+      run: |
+        bash ./build/travis/install.sh
+    - name: Apply WB settings
+      run: |
+        bash ./build/travis/mw-apply-wb-settings.sh
+    - name: Update DB
+      run: |
+        bash ./build/travis/update-db.sh
+    - name: Run script
+      run: |
+        bash ./build/travis/script.sh
