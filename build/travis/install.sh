@@ -30,11 +30,11 @@ cd ..
 cp $originalDirectory/build/travis/composer.local.json composer.local.json
 
 composer self-update --1 # TODO: Allow using Composer version 2: T266455
-composer install
+composer install --no-progress
 
 # Try composer install again... this tends to fail from time to time
 if [ $? -gt 0 ]; then
-	composer install
+	composer install --no-progress
 fi
 
 mysql -u root -proot -e 'create database its_a_mw;'
