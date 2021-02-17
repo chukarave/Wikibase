@@ -86,14 +86,18 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
     - name: install.sh
+      env: ${{ matrix.env }}
       run: |
         bash ./build/travis/install.sh
     - name: Apply WB settings
+      env: ${{ matrix.env }}
       run: |
         bash ./build/travis/mw-apply-wb-settings.sh
     - name: Update DB
+      env: ${{ matrix.env }}
       run: |
         bash ./build/travis/update-db.sh
     - name: Run script
+      env: ${{ matrix.env }}
       run: |
         bash ./build/travis/script.sh
