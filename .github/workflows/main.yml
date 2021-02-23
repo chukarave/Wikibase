@@ -111,6 +111,6 @@ jobs:
         subject: Github Actions job result TEST
         # Literal body:
         body: Build job of ${{github.repository}} completed successfully!
-        to: noa.rave@wikimedia.de, lucas.werkmeister@wikimedia.de
+        to: noa.rave@wikimedia.de
         content_type: text/html
         convert_markdown: true
