@@ -111,6 +111,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Github Actions job result TEST
         # Literal body:
-        body: Step ${{ step.name }} failed for version ${{ matrix.php-versions }}!
+        body: Step ${{ steps.name }} failed for version ${{ matrix.php-versions }}!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
