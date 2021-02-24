@@ -32,6 +32,7 @@ jobs:
             --path-rename lib/packages/wikibase/changes/:
             --message-callback 'return re.sub(b"^changes: ", b"", message)'
   secondary-ci:
+    id: secondary_ci
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -112,6 +113,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Github Actions job result TEST
         # Literal body:
-        body: Step ${{ jobs.secondary-ci.steps }} or ${{ jobs.secondary-ci.steps.id }} failed for version ${{ matrix.php-versions }}!
+        body: Step ${{ jobs.secondary_ci.steps[*] }} allsteps or ${{ jobs.secondary_ci.steps[*].name }} or ${{ jobs.secondary_ci.steps.id }} failed for version ${{ matrix.php-versions }}!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
