@@ -75,7 +75,7 @@ jobs:
     steps:
     - name: Echo Env
       run: |
-        env
+        i am prone to fail env
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set up MySQL
@@ -111,6 +111,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Github Actions job result TEST
         # Literal body:
-        body: Build job of ${{github.repository}} completed successfully!
+        body: Step ${{ step.name }} failed for version ${{ matrix.php-versions }}!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
