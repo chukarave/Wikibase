@@ -73,10 +73,6 @@ jobs:
             WB: both
           php-versions: '7.4'
     steps:
-    - name: Echo Env
-      id: echo_env
-      run: |
-        (i am prone to fail so we can test email notifications) env
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set up MySQL
@@ -89,19 +85,19 @@ jobs:
     - name: install.sh
       env: ${{ matrix.env }}
       run: |
-        bash ./build/travis/install.sh
+        bash ./build/ci-scripts/install.sh
     - name: Apply WB settings
       env: ${{ matrix.env }}
       run: |
-        bash ./build/travis/mw-apply-wb-settings.sh
+        bash ./build/ci-scripts/mw-apply-wb-settings.sh
     - name: Update DB
       env: ${{ matrix.env }}
       run: |
-        bash ./build/travis/update-db.sh
+        bash ./build/ci-scripts/update-db.sh
     - name: Run script
       env: ${{ matrix.env }}
       run: |
-        bash ./build/travis/script.sh
+        bash ./build/ci-scripts/script.sh
     - name: Send mail
       if: ${{ failure() }}
       uses: dawidd6/action-send-mail@v2
@@ -110,8 +106,8 @@ jobs:
         server_port: 465
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
-        subject: Github Actions job result TEST
+        subject: Github Action job failed for Wikibase
         # Literal body:
         body: Job secondary-ci failed for php version ${{ matrix.php-versions }}!
-        to: noa.rave@wikimedia.de
+        to: wikidata-ci-status@wikimedia.de
         from: Wikibase Github Action CI
