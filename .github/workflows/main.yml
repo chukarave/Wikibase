@@ -113,5 +113,3 @@ jobs:
         body: Build job of ${{github.repository}} completed successfully!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
-        content_type: text/html
-        convert_markdown: true
