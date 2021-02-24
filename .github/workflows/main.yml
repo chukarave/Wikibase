@@ -76,7 +76,7 @@ jobs:
     - name: Echo Env
       id: echo_env
       run: |
-        i am prone to fail env
+        (i am prone to fail so we can test email notifications) env
     - name: Checkout
       uses: actions/checkout@v2
     - name: Set up MySQL
@@ -112,6 +112,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Github Actions job result TEST
         # Literal body:
-        body: Step ${{ steps.id }} failed for version ${{ matrix.php-versions }}!
+        body: Step ${{ jobs.secondary-ci.steps }} or ${{ jobs.secondary-ci.steps.id }} failed for version ${{ matrix.php-versions }}!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
