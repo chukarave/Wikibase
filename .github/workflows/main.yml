@@ -33,6 +33,7 @@ jobs:
             --message-callback 'return re.sub(b"^changes: ", b"", message)'
   secondary-ci:
     runs-on: ubuntu-latest
+    id: secondary_ci
     strategy:
       fail-fast: false
       matrix:
@@ -112,6 +113,6 @@ jobs:
         password: ${{secrets.MAIL_PASSWORD}}
         subject: Github Actions job result TEST
         # Literal body:
-        body: Step ${{ job }} failed for version ${{ matrix.php-versions }}!
+        body: Step ${{ job.id }} failed for version ${{ matrix.php-versions }}!
         to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
