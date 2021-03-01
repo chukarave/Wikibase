@@ -98,6 +98,16 @@ jobs:
       env: ${{ matrix.env }}
       run: |
         bash ./build/ci-scripts/script.sh
+    - name: Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
     - name: Send mail
       if: ${{ failure() }}
       uses: dawidd6/action-send-mail@v2
