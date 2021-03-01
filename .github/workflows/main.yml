@@ -82,6 +82,11 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+    - name: Cache Composer cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.composer/cache
+        key: composer-cache-php${{ matrix.php-versions }}
     - name: install.sh
       env: ${{ matrix.env }}
       run: |
@@ -98,16 +103,6 @@ jobs:
       env: ${{ matrix.env }}
       run: |
         bash ./build/ci-scripts/script.sh
-    - name: Composer Cache Directory
-      id: composer-cache
-      run: |
-        echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
     - name: Send mail
       if: ${{ failure() }}
       uses: dawidd6/action-send-mail@v2
@@ -119,5 +114,5 @@ jobs:
         subject: Github Action job failed for Wikibase
         # Literal body:
         body: Job secondary-ci failed for php version ${{ matrix.php-versions }}!
-        to: wikidata-ci-status@wikimedia.de
+        to: noa.rave@wikimedia.de
         from: Wikibase Github Action CI
