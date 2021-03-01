@@ -85,7 +85,7 @@ jobs:
     - name: Cache Composer cache
       uses: actions/cache@v2
       with:
-        path: ~/.composer/cache
+        path: $HOME/.composer/cache
         key: composer-cache-php${{ matrix.php-versions }}
     - name: install.sh
       env: ${{ matrix.env }}
